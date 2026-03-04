@@ -1,0 +1,9 @@
+{
+    "name": "kushi-family-dhaba",
+    "version": "1.0.0",
+    "description": "Kushi Family Dhaba Restaurant Management System",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    }
+}

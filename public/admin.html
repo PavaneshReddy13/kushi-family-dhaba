@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Kushi Family Dhaba</title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+
+<div class="toasts" id="toasts"></div>
+
+<!-- ════════════════════════
+     LOGIN PAGE
+     ════════════════════════ -->
+<div id="loginPage">
+  <div class="login-page">
+    <div class="login-card">
+      <div class="icon">🍛</div>
+      <h1>Admin Login</h1>
+      <p>Kushi Family Dhaba — Kitchen Dashboard</p>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="loginPwd" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')Admin.login()" />
+      </div>
+      <button class="btn btn-gold" style="width:100%" onclick="Admin.login()">Login →</button>
+      <p class="hint">To change password, contact the developer.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════
+     ADMIN DASHBOARD
+     ════════════════════════ -->
+<div id="dashboard" style="display:none;width:100%">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <h2>🍛 Kushi Dhaba</h2>
+      <p>Admin Dashboard</p>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item active" onclick="Admin.showTab('orders',this)">
+        📋 Orders <span class="badge" id="pendingBadge" style="display:none">0</span>
+      </div>
+      <div class="nav-item" onclick="Admin.showTab('tables',this)">
+        🪑 Tables
+      </div>
+      <div class="nav-item" onclick="Admin.showTab('report',this)">
+        📊 Daily Report
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="Admin.logout()">Logout</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main-content">
+    <div class="top-bar">
+      <div>
+        <h2 id="tabTitle">Orders Queue</h2>
+        <p id="tabSub">Manage incoming orders (FIFO)</p>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <button class="btn btn-outline btn-sm" onclick="Admin.refresh()">↻ Refresh</button>
+        <span style="font-size:.78rem;color:var(--tm)" id="lastUpdate"></span>
+      </div>
+    </div>
+
+    <div class="content-body">
+
+      <!-- ORDERS TAB -->
+      <div id="tabOrders">
+        <div id="ordersList" class="orders-list"></div>
+      </div>
+
+      <!-- TABLES TAB -->
+      <div id="tabTables" style="display:none">
+        <div class="tbl-grid" id="tablesGrid"></div>
+      </div>
+
+      <!-- REPORT TAB -->
+      <div id="tabReport" style="display:none">
+        <div class="stats-grid" id="statsGrid"></div>
+        <div class="card">
+          <div class="card-hdr"><h3>📅 Daily Revenue History</h3></div>
+          <div class="card-body" style="overflow-x:auto">
+            <table class="rt" id="reportTable">
+              <thead><tr>
+                <th>Date</th><th>Revenue</th><th>Customers</th><th>Bills</th>
+              </tr></thead>
+              <tbody id="reportBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- TABLE DETAIL MODAL -->
+<div class="modal-ov" id="tableModal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h3 id="modalTitle">Table Details</h3>
+      <button class="close-modal" onclick="Admin.closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-ftr" id="modalFtr"></div>
+  </div>
+</div>
+
+<script src="/js/admin.js"></script>
+</body>
+</html>

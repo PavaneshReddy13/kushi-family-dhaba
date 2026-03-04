@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kushi Family Dhaba</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <a href="#" class="nav-brand">🍛 Kushi Family Dhaba</a>
+  <div class="nav-links">
+    <button class="nav-btn" id="nav-menu-btn" onclick="showSection('menu')" style="display:none">🍽️ Menu</button>
+    <button class="nav-btn" id="nav-cart-btn" onclick="toggleCart()" style="display:none">
+      🛒 Cart <span class="cart-badge" id="cart-count">0</span>
+    </button>
+    <a href="/admin" class="nav-btn" style="font-size:0.8rem;opacity:0.5">⚙️ Admin</a>
+  </div>
+</nav>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toast-container"></div>
+
+<!-- Cart Sidebar -->
+<div class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-header">
+    <h2 class="cart-title">🛒 Your Order</h2>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items-list">
+    <div class="cart-empty">Your cart is empty</div>
+  </div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cart-total-amount">₹0</span>
+    </div>
+    <button class="btn-primary" style="width:100%" onclick="placeOrder()">Order Now →</button>
+  </div>
+</div>
+
+<!-- ══ SECTION 1: Landing ══ -->
+<section class="section active" id="landing-section">
+  <div class="container">
+    <div class="hero">
+      <div class="hero-badge">✦ Est. 1987 · Authentic Flavours</div>
+      <h1>Kushi Family<br>Dhaba</h1>
+      <p class="hero-sub">Where every meal is made with love &amp; tradition</p>
+
+      <div class="about-grid">
+        <div class="about-card">
+          <span class="icon">🌿</span>
+          <h3>Fresh Ingredients</h3>
+          <p>Farm-sourced daily, no preservatives</p>
+        </div>
+        <div class="about-card">
+          <span class="icon">🏠</span>
+          <h3>Family Friendly</h3>
+          <p>Warm, welcoming atmosphere for all ages</p>
+        </div>
+        <div class="about-card">
+          <span class="icon">🍛</span>
+          <h3>North &amp; South Indian</h3>
+          <p>Authentic recipes from across India</p>
+        </div>
+        <div class="about-card">
+          <span class="icon">👨‍🍳</span>
+          <h3>Expert Chefs</h3>
+          <p>30+ years of culinary mastery</p>
+        </div>
+      </div>
+
+      <div class="name-input-group">
+        <input type="text" class="input-field" id="customer-name" placeholder="Enter your name..." maxlength="40" />
+        <button class="btn-primary" onclick="startOrdering()">Start Ordering →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 2: Table Selection ══ -->
+<section class="section" id="table-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Choose Your Table</h2>
+      <p class="section-subtitle">Select an available table to begin your dining experience</p>
+    </div>
+    <div class="tables-grid" id="tables-grid"></div>
+    <div id="tables-full-msg" style="display:none">
+      <div class="tables-full-message">
+        <div style="font-size:3rem;margin-bottom:1rem">❤️</div>
+        <h2>All Tables Are Currently Full</h2>
+        <p style="color:var(--text-secondary);margin:1rem 0">Please relax — our team is working hard to seat you soon.<br>In the meantime, enjoy our soothing dhaba music!</p>
+        <div class="music-player">
+          <span>🎵</span>
+          <button class="music-toggle" id="music-btn" onclick="toggleMusic()">Play Dhaba Music</button>
+          <audio id="bg-music" loop>
+            <source src="https://www.soundjay.com/misc/sounds/fail-trombone-01.mp3" type="audio/mpeg">
+          </audio>
+        </div>
+        <p style="color:var(--text-muted);font-size:0.9rem;margin-top:1.5rem;font-style:italic">"Good food is worth the wait — we'll be with you shortly!" 🙏</p>
+        <button class="btn-secondary" style="margin-top:1.5rem" onclick="loadTables()">↻ Check Again</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 3: Menu / Food Selection ══ -->
+<section class="section" id="menu-section">
+  <div class="container">
+    <div class="info-bar" id="session-info">
+      <span>👤 <strong id="display-name"></strong></span>
+      <span>🪑 Table <strong id="display-table"></strong></span>
+      <span style="margin-left:auto">
+        <button class="btn-secondary" style="padding:0.3rem 0.8rem;font-size:0.85rem" onclick="viewOrders()">📋 My Orders</button>
+      </span>
+    </div>
+
+    <div class="section-header">
+      <h2 class="section-title">Our Menu</h2>
+      <p class="section-subtitle">Crafted with love, served with pride</p>
+    </div>
+
+    <div class="menu-categories" id="menu-categories"></div>
+    <div class="menu-grid" id="menu-grid"></div>
+  </div>
+</section>
+
+<!-- ══ SECTION 4: Order Status ══ -->
+<section class="section" id="orders-section">
+  <div class="container">
+    <div class="info-bar">
+      <span>👤 <strong id="orders-display-name"></strong></span>
+      <span>🪑 Table <strong id="orders-display-table"></strong></span>
+    </div>
+    <div class="section-header">
+      <h2 class="section-title">My Orders</h2>
+      <p class="section-subtitle">Track your orders in real-time</p>
+    </div>
+    <div id="orders-list"></div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.5rem">
+      <button class="btn-primary" onclick="showSection('menu')">+ Order More</button>
+      <button class="btn-secondary" onclick="viewBilling()">💳 View Bill</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 5: Billing ══ -->
+<section class="section" id="billing-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Your Bill</h2>
+      <p class="section-subtitle">Thank you for dining with us!</p>
+    </div>
+    <div class="bill-card" id="bill-card">
+      <p style="color:var(--text-muted);text-align:center;padding:2rem">Loading bill...</p>
+    </div>
+    <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap">
+      <button class="btn-secondary" onclick="showSection('orders')">← Back</button>
+      <button class="btn-primary" id="pay-btn" onclick="proceedToPay()">💳 Proceed to Pay</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 6: Payment Success ══ -->
+<section class="section" id="payment-section">
+  <div class="container" style="text-align:center;max-width:500px;margin:0 auto">
+    <div style="font-size:5rem;margin-bottom:1rem;animation:fadeInUp 0.5s ease">✅</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--mint);margin-bottom:1rem">Payment Successful!</h2>
+    <p style="color:var(--text-secondary);margin-bottom:2rem">Thank you for dining at Kushi Family Dhaba.<br>We hope to see you again soon! 🙏</p>
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:2rem">
+      <p style="color:var(--text-muted);font-size:0.9rem;font-style:italic">"Good food, good life — Kushi Family Dhaba"</p>
+    </div>
+    <button class="btn-primary" onclick="startFresh()">🏠 Back to Home</button>
+  </div>
+</section>
+
+<!-- Modal Overlay -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal-content">
+    <div class="spinner"></div>
+    <p style="margin-top:1rem;color:var(--text-secondary)">Processing...</p>
+  </div>
+</div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>
